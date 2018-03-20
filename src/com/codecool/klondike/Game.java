@@ -12,6 +12,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,7 +70,6 @@ public class Game extends Pane {
             }
         }
 
-
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
@@ -103,12 +103,32 @@ public class Game extends Pane {
         List<Pile> allPiles = new ArrayList<>(tableauPiles);
         allPiles.addAll(foundationPiles);
         Pile pile = getValidIntersectingPile(card, allPiles);
-        //TODO
+
+        // handle autoSlide separately, as autoSlide doesn't have dragged cards
         if (pile != null) {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
+        }
+    };
+
+    private EventHandler<MouseEvent> onMouseRightClickedHandler = e -> {
+        Card card = (Card) e.getSource();
+
+        // cards that are not on top or are in FOUNDATION cannot be double-clicked
+        if (card.getContainingPile().getTopCard() != card ||
+                card.getContainingPile().getPileType() == Pile.PileType.FOUNDATION) return;
+
+        // check if click was right-click
+        if (e.getButton() == MouseButton.SECONDARY) {
+
+            // iterate through FOUNDATION piles and move card to pile if found valid
+            for (Pile destPile : foundationPiles) {
+                if (isFoundationValid(card, destPile)) {
+                    handleValidMove(card, destPile);
+                }
+            }
         }
     };
 
@@ -120,8 +140,10 @@ public class Game extends Pane {
 
     private boolean isTableauValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        return (topCard == null && card.getRank() == 13) ||
-                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1);
+        if (topCard == null && card.getRank() == 13) return true;
+        if (topCard != null &&
+                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1)) return true;
+        return false;
     }
 
     public boolean isGameWon() {
@@ -148,6 +170,7 @@ public class Game extends Pane {
         card.setOnMouseDragged(onMouseDraggedHandler);
         card.setOnMouseReleased(onMouseReleasedHandler);
         card.setOnMouseClicked(onMouseClickedHandler);
+        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseRightClickedHandler);
     }
 
     public void refillStockFromDiscard() {
@@ -202,7 +225,16 @@ public class Game extends Pane {
         }
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
-        MouseUtil.slideToDest(draggedCards, destPile);
+        System.out.println(destPile.getPileType());
+
+        // todo comment
+        if (draggedCards.isEmpty()) {
+            List<Card> slideCard = new ArrayList<>();
+            slideCard.add(card);
+            MouseUtil.slideToDest(slideCard, destPile);
+        } else {
+            MouseUtil.slideToDest(draggedCards, destPile);
+        }
 
         //Autoflip
         int indexOfCardInPile = origPile.getCards().indexOf(card);
@@ -216,7 +248,6 @@ public class Game extends Pane {
         draggedCards.clear();
 
     }
-
 
     private void initPiles() {
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
