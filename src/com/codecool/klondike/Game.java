@@ -86,21 +86,19 @@ public class Game extends Pane {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
-    private boolean isFoundationValid (Card card, Pile pile) {
+    private boolean isFoundationValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
         return (pile.isEmpty() && card.getRank() == 1) ||
-                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank() == (topCard.getRank()+1);
+                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank() == (topCard.getRank() + 1);
     }
 
-    private boolean isTableauValid (Card card, Pile pile) {
-        //TODO Adél
+    private boolean isTableauValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        System.out.println(card.getRank()+" "+topCard.getRank());
-        return (topCard==null && card.getRank() == 13) ||
+        return (topCard == null && card.getRank() == 13) ||
                 (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1);
     }
 
@@ -136,8 +134,8 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-       return (destPile.getPileType() == Pile.PileType.FOUNDATION) ?
-               isFoundationValid(card, destPile) : isTableauValid(card, destPile);
+        return (destPile.getPileType() == Pile.PileType.FOUNDATION) ?
+                isFoundationValid(card, destPile) : isTableauValid(card, destPile);
     }
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
@@ -174,8 +172,16 @@ public class Game extends Pane {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
         System.out.println(msg);
+        Pile origPile = card.getContainingPile();
+        card.moveToPile(destPile);
+
+        // autoflip
+        if (origPile.getPileType() == Pile.PileType.TABLEAU) {
+            origPile.getTopCard().flip();
+        }
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
+
     }
 
 
@@ -216,7 +222,7 @@ public class Game extends Pane {
         //TODO
         for (int i = 0; i < tableauPiles.size(); i++) {
             Pile currentTableauPile = tableauPiles.get(i);
-            for (int j = 0; j < i+1; j++) {
+            for (int j = 0; j < i + 1; j++) {
                 Card card = deckIterator.next();
                 currentTableauPile.addCard(card);
                 card.moveToPile(currentTableauPile);
