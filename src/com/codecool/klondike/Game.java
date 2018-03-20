@@ -84,7 +84,6 @@ public class Game extends Pane {
                 draggedCards.add(currentCard);
             }
         }
-        System.out.println(draggedCards.size());
 
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
@@ -172,7 +171,6 @@ public class Game extends Pane {
         card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseDoubleClickedHandler);
     }
 
-
     public void refillStockFromDiscard() {
         Collections.reverse(discardPile.getCards());
         for (Card discardedCard : discardPile.getCards()) {
@@ -190,14 +188,14 @@ public class Game extends Pane {
     }
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
-        Pile result = null;
-        System.out.println(card.getContainingPile().getName());
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
-                result = pile;
+                    isMoveValid(card, pile)) {
+                return pile;
+            }
         }
+        Pile result = null;
         return result;
     }
 
@@ -225,18 +223,26 @@ public class Game extends Pane {
         }
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
-        for (Card cardEach:draggedCards) {
-            cardEach.moveToPile(destPile);
+        System.out.println(destPile.getPileType());
+
+        // todo comment
+        if (draggedCards.isEmpty()) {
+            List<Card> slideCard = new ArrayList<>();
+            slideCard.add(card);
+            MouseUtil.slideToDest(slideCard, destPile);
+        } else {
+            MouseUtil.slideToDest(draggedCards, destPile);
         }
 
-        // autoflip
+        //Autoflip
+        int indexOfCardInPile = origPile.getCards().indexOf(card);
+        Card cardAbove = origPile.getCards().get(indexOfCardInPile-1);
         if (origPile.getPileType() == Pile.PileType.TABLEAU &&
                 origPile.numOfCards() > 0 &&
-                origPile.getTopCard().isFaceDown()) {
-            origPile.getTopCard().flip();
+                cardAbove.isFaceDown()) {
+            cardAbove.flip();
         }
 
-        MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
 
     }
