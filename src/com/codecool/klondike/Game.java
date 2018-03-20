@@ -83,7 +83,6 @@ public class Game extends Pane {
                 draggedCards.add(currentCard);
             }
         }
-        System.out.println(draggedCards.size());
 
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
@@ -168,14 +167,14 @@ public class Game extends Pane {
     }
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
-        Pile result = null;
-        System.out.println(card.getContainingPile().getName());
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
-                result = pile;
+                    isMoveValid(card, pile)) {
+                return pile;
+            }
         }
+        Pile result = null;
         return result;
     }
 
