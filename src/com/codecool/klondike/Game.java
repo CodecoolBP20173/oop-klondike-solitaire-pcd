@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,6 +95,7 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
+        shuffleDeck();
         initPiles();
         dealCards();
     }
@@ -198,6 +200,10 @@ public class Game extends Pane {
             getChildren().add(card);
         });
 
+    }
+
+    public void shuffleDeck() {
+        Collections.shuffle(deck);
     }
 
     public void setTableBackground(Image tableBackground) {
