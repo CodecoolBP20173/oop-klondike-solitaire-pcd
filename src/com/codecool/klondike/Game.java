@@ -64,14 +64,26 @@ public class Game extends Pane {
 
         draggedCards.clear();
         draggedCards.add(card);
+        if (card != activePile.getTopCard()) {
+            List<Card> pileContent = activePile.getCards();
+            int start = pileContent.indexOf(card) + 1;
+            for (int i = start; i < pileContent.size(); i++) {
+                Card currentCard = pileContent.get(i);
+                draggedCards.add(currentCard);
+            }
+        }
+        System.out.println(draggedCards.size());
 
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
         card.getDropShadow().setOffsetY(10);
 
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
+        //card.toFront();
+        for (Card dragEach:draggedCards) {
+            dragEach.toFront();
+            dragEach.setTranslateX(offsetX);
+            dragEach.setTranslateY(offsetY);
+        }
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -162,7 +174,9 @@ public class Game extends Pane {
         }
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
-        card.moveToPile(destPile);
+        for (Card cardEach:draggedCards) {
+            cardEach.moveToPile(destPile);
+        }
 
         // autoflip
         if (origPile.getPileType() == Pile.PileType.TABLEAU && origPile.numOfCards() > 0) {
