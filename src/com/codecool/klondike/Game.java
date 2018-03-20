@@ -129,7 +129,13 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        Collections.reverse(discardPile.getCards());
+        for (Card discardedCard : discardPile.getCards()) {
+            System.out.println("Moving:" + discardedCard.getSuit() + " " + discardedCard.getRank());
+            discardedCard.flip();
+            stockPile.addCard(discardedCard);
+        }
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 
@@ -222,7 +228,6 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
         for (int i = 0; i < tableauPiles.size(); i++) {
             Pile currentTableauPile = tableauPiles.get(i);
             for (int j = 0; j < i + 1; j++) {
