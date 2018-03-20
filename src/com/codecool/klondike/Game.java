@@ -164,6 +164,10 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
+                boolean won = isGameWon();
+                if (won) {
+                    System.out.println("YOU ARE WINNER");
+            }
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
