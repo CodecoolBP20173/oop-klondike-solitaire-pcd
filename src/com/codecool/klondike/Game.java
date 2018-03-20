@@ -103,7 +103,14 @@ public class Game extends Pane {
     }
 
     public boolean isGameWon() {
-        //TODO
+        int count = 0;
+        for (Pile pile : foundationPiles) {
+            count += pile.numOfCards();
+        }
+        if (count == 52) {
+            //TODO popup
+            return true;
+        }
         return false;
     }
 
@@ -155,6 +162,11 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
+                boolean won = isGameWon();
+                if (won) {
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
+            }
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -165,7 +177,9 @@ public class Game extends Pane {
         card.moveToPile(destPile);
 
         // autoflip
-        if (origPile.getPileType() == Pile.PileType.TABLEAU) {
+        if (origPile.getPileType() == Pile.PileType.TABLEAU &&
+                origPile.numOfCards() > 0 &&
+                origPile.getTopCard().isFaceDown()) {
             origPile.getTopCard().flip();
         }
         MouseUtil.slideToDest(draggedCards, destPile);
