@@ -65,7 +65,7 @@ public class Game extends Pane {
             return;
         if (card.getContainingPile().getPileType() == Pile.PileType.DISCARD) {
             Card topDisCard = card.getContainingPile().getTopCard();
-            if (card != topDisCard) {
+            if (card != topDisCard){
                 return;
             }
         }
@@ -91,7 +91,7 @@ public class Game extends Pane {
         card.getDropShadow().setOffsetY(10);
 
         //card.toFront();
-        for (Card dragEach : draggedCards) {
+        for (Card dragEach:draggedCards) {
             dragEach.toFront();
             dragEach.setTranslateX(offsetX);
             dragEach.setTranslateY(offsetY);
@@ -213,10 +213,10 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
-            boolean won = isGameWon();
-            if (won) {
-                PopUp winPopup = new PopUp();
-                winPopup.showDialog();
+                boolean won = isGameWon();
+                if (won) {
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
             }
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
@@ -225,7 +225,7 @@ public class Game extends Pane {
         }
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
-        for (Card cardEach : draggedCards) {
+        for (Card cardEach:draggedCards) {
             cardEach.moveToPile(destPile);
         }
 
@@ -238,6 +238,7 @@ public class Game extends Pane {
 
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
+
     }
 
 
