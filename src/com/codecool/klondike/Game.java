@@ -165,7 +165,7 @@ public class Game extends Pane {
         card.moveToPile(destPile);
 
         // autoflip
-        if (origPile.getPileType() == Pile.PileType.TABLEAU) {
+        if (origPile.getPileType() == Pile.PileType.TABLEAU && origPile.numOfCards() > 0) {
             origPile.getTopCard().flip();
         }
         MouseUtil.slideToDest(draggedCards, destPile);
