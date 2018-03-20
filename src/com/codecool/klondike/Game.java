@@ -70,7 +70,6 @@ public class Game extends Pane {
             }
         }
 
-
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
@@ -104,7 +103,8 @@ public class Game extends Pane {
         List<Pile> allPiles = new ArrayList<>(tableauPiles);
         allPiles.addAll(foundationPiles);
         Pile pile = getValidIntersectingPile(card, allPiles);
-        //TODO
+
+        // handle autoSlide separately, as autoSlide doesn't have dragged cards
         if (pile != null) {
             handleValidMove(card, pile);
         } else {
@@ -113,8 +113,9 @@ public class Game extends Pane {
         }
     };
 
-    private EventHandler<MouseEvent> onMouseDoubleClickedHandler = e -> {
+    private EventHandler<MouseEvent> onMouseRightClickedHandler = e -> {
         Card card = (Card) e.getSource();
+
         // cards that are not on top or are in FOUNDATION cannot be double-clicked
         if (card.getContainingPile().getTopCard() != card ||
                 card.getContainingPile().getPileType() == Pile.PileType.FOUNDATION) return;
@@ -125,7 +126,6 @@ public class Game extends Pane {
             // iterate through FOUNDATION piles and move card to pile if found valid
             for (Pile destPile : foundationPiles) {
                 if (isFoundationValid(card, destPile)) {
-                    System.out.println("destination found");
                     handleValidMove(card, destPile);
                 }
             }
@@ -140,8 +140,10 @@ public class Game extends Pane {
 
     private boolean isTableauValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        return (topCard == null && card.getRank() == 13) ||
-                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1);
+        if (topCard == null && card.getRank() == 13) return true;
+        if (topCard != null &&
+                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1)) return true;
+        return false;
     }
 
     public boolean isGameWon() {
@@ -168,7 +170,7 @@ public class Game extends Pane {
         card.setOnMouseDragged(onMouseDraggedHandler);
         card.setOnMouseReleased(onMouseReleasedHandler);
         card.setOnMouseClicked(onMouseClickedHandler);
-        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseDoubleClickedHandler);
+        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseRightClickedHandler);
     }
 
     public void refillStockFromDiscard() {
@@ -246,7 +248,6 @@ public class Game extends Pane {
         draggedCards.clear();
 
     }
-
 
     private void initPiles() {
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
