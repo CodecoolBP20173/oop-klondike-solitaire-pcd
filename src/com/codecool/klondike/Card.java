@@ -24,6 +24,8 @@ public class Card extends ImageView {
     public static final int HEIGHT = 215;
 
     public Card(int suit, int rank, boolean faceDown) {
+        //suit - color
+        //rank - kiraly, dama, asz
         this.suit = suit;
         this.rank = rank;
         this.faceDown = faceDown;
@@ -79,7 +81,11 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2) {
         //TODO
-        return true;
+        if (((card1.suit == 1 || card1.suit == 2) && (card2.suit == 3 || card2.suit == 4)) ||
+                ((card1.suit == 3 || card1.suit == 4) && (card2.suit == 1 || card2.suit == 2))) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {

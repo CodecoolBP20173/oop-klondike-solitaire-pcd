@@ -21,6 +21,7 @@ public class Pile extends Pane {
     public Pile(PileType pileType, String name, double cardGap) {
         this.pileType = pileType;
         this.cardGap = cardGap;
+        this.name = name;
     }
 
     public PileType getPileType() {
@@ -41,7 +42,8 @@ public class Pile extends Pane {
 
     public int numOfCards() {
         //TODO
-        return 1;
+        int number = cards.size();
+        return number;
     }
 
     public boolean isEmpty() {
@@ -50,6 +52,7 @@ public class Pile extends Pane {
 
     public void clear() {
         //TODO
+        cards.remove(0, cards.size()-1);
     }
 
     public void addCard(Card card) {
