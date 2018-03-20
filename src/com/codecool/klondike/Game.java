@@ -202,17 +202,17 @@ public class Game extends Pane {
         }
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
-        for (Card cardEach:draggedCards) {
-            cardEach.moveToPile(destPile);
-        }
+        MouseUtil.slideToDest(draggedCards, destPile);
 
-        // autoflip
+        //Autoflip
+        int indexOfCardInPile = origPile.getCards().indexOf(card);
+        Card cardAbove = origPile.getCards().get(indexOfCardInPile-1);
         if (origPile.getPileType() == Pile.PileType.TABLEAU &&
                 origPile.numOfCards() > 0 &&
-                origPile.getTopCard().isFaceDown()) {
-            origPile.getTopCard().flip();
+                cardAbove.isFaceDown()) {
+            cardAbove.flip();
         }
-        MouseUtil.slideToDest(draggedCards, destPile);
+
         draggedCards.clear();
 
     }
