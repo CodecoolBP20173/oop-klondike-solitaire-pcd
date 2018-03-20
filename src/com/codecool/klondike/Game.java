@@ -164,7 +164,8 @@ public class Game extends Pane {
                 msg = String.format("Placed %s to the foundation.", card);
                 boolean won = isGameWon();
                 if (won) {
-                    System.out.println("YOU ARE WINNER");
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
             }
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
