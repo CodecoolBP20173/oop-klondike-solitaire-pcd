@@ -88,7 +88,14 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
+        int count = 0;
+        for (Pile pile : foundationPiles) {
+            count += pile.numOfCards();
+        }
+        if (count == 52) {
+            //TODO popup
+            return true;
+        }
         return false;
     }
 
