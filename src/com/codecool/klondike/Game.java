@@ -98,7 +98,10 @@ public class Game extends Pane {
 
     private boolean isTableauValid (Card card, Pile pile) {
         //TODO Adél
-        return true;
+        Card topCard = pile.getTopCard();
+        System.out.println(card.getRank()+" "+topCard.getRank());
+        return (topCard==null && card.getRank() == 13) ||
+                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1);
     }
 
     public boolean isGameWon() {
@@ -126,15 +129,13 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        if ( isFoundationValid(card, destPile) || isTableauValid(card, destPile)) {
-            return true;
-        } else {
-            return false;
-        }
+       return (destPile.getPileType() == Pile.PileType.FOUNDATION) ?
+               isFoundationValid(card, destPile) : isTableauValid(card, destPile);
     }
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
+        System.out.println(card.getContainingPile().getName());
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
