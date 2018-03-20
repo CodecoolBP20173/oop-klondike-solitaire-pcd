@@ -193,6 +193,9 @@ public class Game extends Pane {
                 card.moveToPile(currentTableauPile);
                 addMouseEventHandlers(card);
                 getChildren().add(card);
+                if (j == i) {
+                    card.flip();
+                }
             }
         }
         deckIterator.forEachRemaining(card -> {
