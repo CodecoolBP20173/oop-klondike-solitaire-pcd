@@ -45,7 +45,7 @@ public class MouseUtil {
             targetX = destPile.getTopCard().getLayoutX();
             targetY = destPile.getTopCard().getLayoutY();
         }
-
+        System.out.println("Sliding card: " + cardsToSlide.get(0) + "to pile: " + destPile.getName());
         for (int i = 0; i < cardsToSlide.size(); i++) {
             Card currentCard = cardsToSlide.get(i);
             double sourceX = currentCard.getLayoutX() + currentCard.getTranslateX();
