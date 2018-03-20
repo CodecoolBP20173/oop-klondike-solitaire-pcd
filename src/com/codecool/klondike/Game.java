@@ -206,11 +206,11 @@ public class Game extends Pane {
 
         //Autoflip
         int indexOfCardInPile = origPile.getCards().indexOf(card);
-        Card cardAbove = origPile.getCards().get(indexOfCardInPile-1);
-        if (origPile.getPileType() == Pile.PileType.TABLEAU &&
-                origPile.numOfCards() > 0 &&
-                cardAbove.isFaceDown()) {
-            cardAbove.flip();
+        if (indexOfCardInPile > 0 ) {
+            Card cardAbove = origPile.getCards().get(indexOfCardInPile - 1);
+            if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
+                cardAbove.flip();
+            }
         }
 
         draggedCards.clear();
