@@ -26,7 +26,6 @@ public class Klondike extends Application {
         Card.loadCardImages();
         Game game = new Game();
         game.setTableBackground(new Image("/table/green.png"));
-        game.placeButton();
 
 
         primaryStage.setTitle("Klondike Solitaire");
