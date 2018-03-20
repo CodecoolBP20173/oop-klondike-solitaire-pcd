@@ -115,7 +115,14 @@ public class Game extends Pane {
     }
 
     public boolean isGameWon() {
-        //TODO
+        int count = 0;
+        for (Pile pile : foundationPiles) {
+            count += pile.numOfCards();
+        }
+        if (count == 52) {
+            //TODO popup
+            return true;
+        }
         return false;
     }
 
@@ -134,7 +141,13 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        Collections.reverse(discardPile.getCards());
+        for (Card discardedCard : discardPile.getCards()) {
+            System.out.println("Moving:" + discardedCard.getSuit() + " " + discardedCard.getRank());
+            discardedCard.flip();
+            stockPile.addCard(discardedCard);
+        }
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 
@@ -167,6 +180,11 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
+                boolean won = isGameWon();
+                if (won) {
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
+            }
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -179,7 +197,9 @@ public class Game extends Pane {
         }
 
         // autoflip
-        if (origPile.getPileType() == Pile.PileType.TABLEAU && origPile.numOfCards() > 0) {
+        if (origPile.getPileType() == Pile.PileType.TABLEAU &&
+                origPile.numOfCards() > 0 &&
+                origPile.getTopCard().isFaceDown()) {
             origPile.getTopCard().flip();
         }
         MouseUtil.slideToDest(draggedCards, destPile);
@@ -222,7 +242,6 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
         for (int i = 0; i < tableauPiles.size(); i++) {
             Pile currentTableauPile = tableauPiles.get(i);
             for (int j = 0; j < i + 1; j++) {
