@@ -77,7 +77,9 @@ public class Game extends Pane {
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, tableauPiles);
+        List<Pile> allPiles = new ArrayList<>(tableauPiles);
+        allPiles.addAll(foundationPiles);
+        Pile pile = getValidIntersectingPile(card, allPiles);
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
@@ -88,8 +90,9 @@ public class Game extends Pane {
     };
 
     private boolean isFoundationValid (Card card, Pile pile) {
-        //TODO Kristóf
-        return true;
+        Card topCard = pile.getTopCard();
+        return (pile.isEmpty() && card.getRank() == 1) ||
+                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank() == (topCard.getRank()+1);
     }
 
     private boolean isTableauValid (Card card, Pile pile) {
@@ -127,6 +130,7 @@ public class Game extends Pane {
             return false;
         }
     }
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
