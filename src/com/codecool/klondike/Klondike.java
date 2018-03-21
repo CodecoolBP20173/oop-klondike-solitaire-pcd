@@ -11,6 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
+
+
 
 public class Klondike extends Application {
 
@@ -28,10 +34,39 @@ public class Klondike extends Application {
         game.setTableBackground(new Image("/table/green.png"));
 
 
+        addMenu(game, primaryStage);
+
         primaryStage.setTitle("Klondike Solitaire");
         primaryStage.setScene(new Scene(game, WINDOW_WIDTH, WINDOW_HEIGHT));
         primaryStage.show();
 
+    }
+
+    public void addMenu(Game game, Stage stage) {
+        // Create MenuBar
+        MenuBar menuBar = new MenuBar();
+
+        // Create menus
+        Menu fileMenu = new Menu("File");
+        // TODO implement if edit is done, else remove before release
+        // Menu editMenu = new Menu("Edit");
+        Menu helpMenu = new Menu("Help");
+
+        // Create MenuItems
+        MenuItem newItem = new MenuItem("New");
+        MenuItem exitItem = new MenuItem("Exit");
+
+        //MenuItem copyItem = new MenuItem("");
+
+        // Add menuItems to the Menus
+        fileMenu.getItems().addAll(newItem, exitItem);
+        //editMenu.getItems().addAll(copyItem, pasteItem);
+
+        // Add Menus to the MenuBar
+        menuBar.getMenus().addAll(fileMenu, /*editMenu,*/ helpMenu);
+
+        menuBar.prefWidthProperty().bind(stage.widthProperty());
+        game.getChildren().add(menuBar);
     }
 
     public void restart(Stage stage) {
