@@ -229,22 +229,30 @@ public class Game extends Pane {
         if (draggedCards.isEmpty()) {
             List<Card> slideCard = new ArrayList<>();
             slideCard.add(card);
-            MouseUtil.slideToDest(slideCard, destPile);
+            MouseUtil.slideToDest(slideCard, destPile, new Callable() {
+                @Override
+                public void doCallback() {
+                    if (origPile.isEmpty()) return;
+                    Card cardAbove = origPile.getTopCard();
+                    if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
+                        cardAbove.flip();
+                    }
+                }
+            });
         } else {
-            MouseUtil.slideToDest(draggedCards, destPile);
-        }
-
-        //Autoflip
-        int indexOfCardInPile = origPile.getCards().indexOf(card);
-        if (indexOfCardInPile > 0 ) {
-            Card cardAbove = origPile.getCards().get(indexOfCardInPile - 1);
-            if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
-                cardAbove.flip();
-            }
+            MouseUtil.slideToDest(draggedCards, destPile, new Callable() {
+                @Override
+                public void doCallback() {
+                    if (origPile.isEmpty()) return;
+                    Card cardAbove = origPile.getTopCard();
+                    if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
+                        cardAbove.flip();
+                    }
+                }
+            });
         }
 
         draggedCards.clear();
-
     }
 
     private void initPiles() {
@@ -300,7 +308,6 @@ public class Game extends Pane {
             addMouseEventHandlers(card);
             getChildren().add(card);
         });
-
     }
 
     public void shuffleDeck() {
@@ -312,5 +319,4 @@ public class Game extends Pane {
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
-
 }
