@@ -153,12 +153,10 @@ public class Game extends Pane {
     public void refillStockFromDiscard() {
         Collections.reverse(discardPile.getCards());
         for (Card discardedCard : discardPile.getCards()) {
-            System.out.println("Moving:" + discardedCard.getSuit() + " " + discardedCard.getRank());
             discardedCard.flip();
             stockPile.addCard(discardedCard);
         }
         discardPile.clear();
-        System.out.println("Stock refilled from discard pile.");
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
