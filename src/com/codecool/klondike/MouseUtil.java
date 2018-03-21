@@ -16,7 +16,11 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+
+
 public class MouseUtil {
+
+    public static Game game;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -58,6 +62,14 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
+                        boolean won = game.isGameWon();
+                        System.out.println("Won:"+won);
+                        if (won) {
+                            System.out.println("I'M TRYING TO POP THE WINPOPUP");
+                            PopUp winPopup = new PopUp();
+                            winPopup.showDialog();
+                        }
+
                     });
         }
     }

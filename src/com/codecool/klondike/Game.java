@@ -1,6 +1,7 @@
 package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
+import java.util.concurrent.CompletableFuture;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Game extends Pane {
 
@@ -111,6 +113,31 @@ public class Game extends Pane {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
         }
+        //wintest
+        int count = 0;
+        for (Pile pile1:foundationPiles) {
+            count+= pile1.numOfCards();
+        }
+        System.out.println("Cards in foundation"+count);
+        /*boolean won = isGameWon();
+        System.out.println("Won:"+won);
+        if (won) {
+            System.out.println("I'M TRYING TO POP THE WINPOPUP");
+            PopUp winPopup = new PopUp();
+            winPopup.showDialog();
+            //eventhandler removal v0.0.0.0.666, will update!!
+            /*for (int i = 0; i < tableauPiles.size(); i++) {
+                Pile currentPile = tableauPiles.get(i);
+                List<Card> currentCards = currentPile.getCards();
+                for (Card baszodjmeg: currentCards) {
+                    baszodjmeg.removeEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedHandler);
+                }
+            }
+
+
+
+        }*/
+
     };
 
     private EventHandler<MouseEvent> onMouseRightClickedHandler = e -> {
@@ -147,14 +174,23 @@ public class Game extends Pane {
     }
 
     public boolean isGameWon() {
+        //v1
         int count = 0;
         for (Pile pile : foundationPiles) {
             count += pile.numOfCards();
         }
         if (count == 52) {
-            //TODO popup
             return true;
         }
+        //v2
+        /*int count = -1;
+        for (Pile pile : tableauPiles) {
+            count += pile.numOfCards();
+        }
+        count += 1;
+        if (count == 1) {
+            return true;
+        }*/
         return false;
     }
 
@@ -211,11 +247,7 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
-                boolean won = isGameWon();
-                if (won) {
-                    PopUp winPopup = new PopUp();
-                    winPopup.showDialog();
-            }
+
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -242,6 +274,9 @@ public class Game extends Pane {
                 cardAbove.flip();
             }
         }
+
+        //Wincheck
+
 
         draggedCards.clear();
 
