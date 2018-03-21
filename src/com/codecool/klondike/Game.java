@@ -134,15 +134,15 @@ public class Game extends Pane {
 
     private boolean isFoundationValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        return (pile.isEmpty() && card.getRank() == 1) ||
-                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank() == (topCard.getRank() + 1);
+        return (pile.isEmpty() && card.getRank().id == 1) ||
+                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank().id == (topCard.getRank().id + 1);
     }
 
     private boolean isTableauValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        if (topCard == null && card.getRank() == 13) return true;
+        if (topCard == null && card.getRank().id == 13) return true;
         if (topCard != null &&
-                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1)) return true;
+                (Card.isOppositeColor(card, topCard) && topCard.getRank().id - card.getRank().id == 1)) return true;
         return false;
     }
 
