@@ -161,15 +161,15 @@ public class Game extends Pane {
 
     private boolean isFoundationValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        return (pile.isEmpty() && card.getRank() == 1) ||
-                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank() == (topCard.getRank() + 1);
+        return (pile.isEmpty() && card.getRank().id == 1) ||
+                !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank().id == (topCard.getRank().id + 1);
     }
 
     private boolean isTableauValid(Card card, Pile pile) {
         Card topCard = pile.getTopCard();
-        if (topCard == null && card.getRank() == 13) return true;
+        if (topCard == null && card.getRank().id == 13) return true;
         if (topCard != null &&
-                (Card.isOppositeColor(card, topCard) && topCard.getRank() - card.getRank() == 1)) return true;
+                (Card.isOppositeColor(card, topCard) && topCard.getRank().id - card.getRank().id == 1)) return true;
         return false;
     }
 
@@ -286,21 +286,21 @@ public class Game extends Pane {
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
         stockPile.setLayoutX(95);
-        stockPile.setLayoutY(20);
+        stockPile.setLayoutY(80);
         stockPile.setOnMouseClicked(stockReverseCardsHandler);
         getChildren().add(stockPile);
 
         discardPile = new Pile(Pile.PileType.DISCARD, "Discard", STOCK_GAP);
         discardPile.setBlurredBackground();
         discardPile.setLayoutX(285);
-        discardPile.setLayoutY(20);
+        discardPile.setLayoutY(80);
         getChildren().add(discardPile);
 
         for (int i = 0; i < 4; i++) {
             Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP);
             foundationPile.setBlurredBackground();
             foundationPile.setLayoutX(610 + i * 180);
-            foundationPile.setLayoutY(20);
+            foundationPile.setLayoutY(80);
             foundationPiles.add(foundationPile);
             getChildren().add(foundationPile);
         }
@@ -308,7 +308,7 @@ public class Game extends Pane {
             Pile tableauPile = new Pile(Pile.PileType.TABLEAU, "Tableau " + i, TABLEAU_GAP);
             tableauPile.setBlurredBackground();
             tableauPile.setLayoutX(95 + i * 180);
-            tableauPile.setLayoutY(275);
+            tableauPile.setLayoutY(335);
             tableauPiles.add(tableauPile);
             getChildren().add(tableauPile);
         }
