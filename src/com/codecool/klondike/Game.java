@@ -118,26 +118,6 @@ public class Game extends Pane {
         for (Pile pile1:foundationPiles) {
             count+= pile1.numOfCards();
         }
-        System.out.println("Cards in foundation"+count);
-        /*boolean won = isGameWon();
-        System.out.println("Won:"+won);
-        if (won) {
-            System.out.println("I'M TRYING TO POP THE WINPOPUP");
-            PopUp winPopup = new PopUp();
-            winPopup.showDialog();
-            //eventhandler removal v0.0.0.0.666, will update!!
-            /*for (int i = 0; i < tableauPiles.size(); i++) {
-                Pile currentPile = tableauPiles.get(i);
-                List<Card> currentCards = currentPile.getCards();
-                for (Card baszodjmeg: currentCards) {
-                    baszodjmeg.removeEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedHandler);
-                }
-            }
-
-
-
-        }*/
-
     };
 
     private EventHandler<MouseEvent> onMouseRightClickedHandler = e -> {
@@ -182,15 +162,6 @@ public class Game extends Pane {
         if (count == 52) {
             return true;
         }
-        //v2
-        /*int count = -1;
-        for (Pile pile : tableauPiles) {
-            count += pile.numOfCards();
-        }
-        count += 1;
-        if (count == 1) {
-            return true;
-        }*/
         return false;
     }
 
@@ -274,9 +245,6 @@ public class Game extends Pane {
                 cardAbove.flip();
             }
         }
-
-        //Wincheck
-
 
         draggedCards.clear();
 

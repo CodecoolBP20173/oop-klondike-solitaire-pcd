@@ -62,10 +62,9 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
+                        //Wincheck
                         boolean won = game.isGameWon();
-                        System.out.println("Won:"+won);
                         if (won) {
-                            System.out.println("I'M TRYING TO POP THE WINPOPUP");
                             PopUp winPopup = new PopUp();
                             winPopup.showDialog();
                         }
