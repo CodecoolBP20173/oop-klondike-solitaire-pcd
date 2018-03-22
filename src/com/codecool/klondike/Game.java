@@ -148,7 +148,7 @@ public class Game extends Pane {
     };
 
     private boolean isFoundationValid(Card card, Pile pile) {
-        if (draggedCards.size() != 1) return false;
+        if (draggedCards.size() > 1) return false;
         Card topCard = pile.getTopCard();
         return (pile.isEmpty() && card.getRank().id == 1) ||
                 !pile.isEmpty() && Card.isSameSuit(card, topCard) && card.getRank().id == (topCard.getRank().id + 1);
