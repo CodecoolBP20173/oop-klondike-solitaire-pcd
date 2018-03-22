@@ -224,32 +224,24 @@ public class Game extends Pane {
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
         System.out.println(destPile.getPileType());
+        
+        Callable auToFlipCallback = new Callable() {
+            @Override
+            public void doCallback() {
+                if (origPile.isEmpty()) return;
+                Card cardAbove = origPile.getTopCard();
+                if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
+                    cardAbove.flip();
+                }
+            }
+        };
 
-        // todo comment
         if (draggedCards.isEmpty()) {
             List<Card> slideCard = new ArrayList<>();
             slideCard.add(card);
-            MouseUtil.slideToDest(slideCard, destPile, new Callable() {
-                @Override
-                public void doCallback() {
-                    if (origPile.isEmpty()) return;
-                    Card cardAbove = origPile.getTopCard();
-                    if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
-                        cardAbove.flip();
-                    }
-                }
-            });
+            MouseUtil.slideToDest(slideCard, destPile, auToFlipCallback);
         } else {
-            MouseUtil.slideToDest(draggedCards, destPile, new Callable() {
-                @Override
-                public void doCallback() {
-                    if (origPile.isEmpty()) return;
-                    Card cardAbove = origPile.getTopCard();
-                    if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
-                        cardAbove.flip();
-                    }
-                }
-            });
+            MouseUtil.slideToDest(draggedCards, destPile, auToFlipCallback);
         }
 
         draggedCards.clear();
