@@ -321,19 +321,19 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-//        for (int i = 0; i < tableauPiles.size(); i++) {
-//            Pile currentTableauPile = tableauPiles.get(i);
-//            for (int j = 0; j < i + 1; j++) {
-//                Card card = deckIterator.next();
-//                currentTableauPile.addCard(card);
-//                card.moveToPile(currentTableauPile);
-//                addMouseEventHandlers(card);
-//                getChildren().add(card);
-//                if (j == i) {
-//                    card.flip();
-//                }
-//            }
-//        }
+        for (int i = 0; i < tableauPiles.size(); i++) {
+            Pile currentTableauPile = tableauPiles.get(i);
+            for (int j = 0; j < i + 1; j++) {
+                Card card = deckIterator.next();
+                currentTableauPile.addCard(card);
+                card.moveToPile(currentTableauPile);
+                addMouseEventHandlers(card);
+                getChildren().add(card);
+                if (j == i) {
+                    card.flip();
+                }
+            }
+        }
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             card.moveToPile(stockPile);
@@ -417,7 +417,5 @@ public class Game extends Pane {
             autoIndex++;
             autoComplete();
         }
-
-
     }
 }
