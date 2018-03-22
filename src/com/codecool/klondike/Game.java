@@ -245,7 +245,7 @@ public class Game extends Pane {
                 boolean won = isGameWon();
                 if (won) {
                     PopUp winPopup = new PopUp();
-                    winPopup.showDialog(Game.this);
+                    winPopup.showDialog();
                 }
             }
             private void autoFlip() {
