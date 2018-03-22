@@ -166,7 +166,7 @@ public class Game extends Pane {
         for (Pile pile : foundationPiles) {
             count += pile.numOfCards();
         }
-        if (count == 52) {
+        if (count == 1) {
             return true;
         }
         return false;
@@ -245,7 +245,7 @@ public class Game extends Pane {
                 boolean won = isGameWon();
                 if (won) {
                     PopUp winPopup = new PopUp();
-                    winPopup.showDialog();
+                    winPopup.showDialog(Game.this);
                 }
             }
             private void autoFlip() {

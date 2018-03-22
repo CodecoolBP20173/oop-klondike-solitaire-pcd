@@ -92,11 +92,13 @@ public class Klondike extends Application {
 
         menuBar.prefWidthProperty().bind(stage.widthProperty());
         game.getChildren().add(menuBar);
+
     }
 
     public void restart(Stage stage) {
         startGame(stage);
     }
+
 
     @Override
     public void start(Stage primaryStage) {
