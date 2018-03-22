@@ -11,6 +11,10 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class Klondike extends Application {
@@ -40,7 +44,27 @@ public class Klondike extends Application {
 
     }
 
+    public void openLinkInBrowser(ActionEvent event, String address){
+        System.out.println("trying to open link");
+
+        if( Desktop.isDesktopSupported() ) {
+                new Thread(() -> {
+                    try {
+                        URI uri = new URI(address);
+                        Desktop.getDesktop().browse(uri);
+                    } catch (IOException | URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                }).start();
+            }
+
+
+
+
+    }
+
     public void addMenu(Game game, Stage stage) {
+
         // Create MenuBar
         MenuBar menuBar = new MenuBar();
 
@@ -51,6 +75,7 @@ public class Klondike extends Application {
         // Create MenuItems
         MenuItem newItem = new MenuItem("New");
         MenuItem exitItem = new MenuItem("Exit");
+        MenuItem ruleItem = new MenuItem("Rules");
 
         // Set Accelerator for Exit MenuItem.
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
@@ -75,8 +100,19 @@ public class Klondike extends Application {
             }
         });
 
+
+        ruleItem.setAccelerator(KeyCombination.keyCombination("Ctrl+H"));
+
+        ruleItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                openLinkInBrowser(event, "https://www.bicyclecards.com/how-to-play/solitaire/");
+            }
+        });
+
         // Add menuItems to the Menus
         fileMenu.getItems().addAll(newItem, exitItem);
+        helpMenu.getItems().addAll(ruleItem);
 
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(fileMenu, helpMenu);
