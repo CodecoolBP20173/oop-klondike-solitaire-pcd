@@ -1,6 +1,7 @@
 package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
+import java.util.concurrent.CompletableFuture;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Game extends Pane {
 
@@ -165,7 +167,6 @@ public class Game extends Pane {
             count += pile.numOfCards();
         }
         if (count == 52) {
-            //TODO popup
             return true;
         }
         return false;
@@ -224,11 +225,7 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
-                boolean won = isGameWon();
-                if (won) {
-                    PopUp winPopup = new PopUp();
-                    winPopup.showDialog();
-            }
+
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -237,10 +234,21 @@ public class Game extends Pane {
         System.out.println(msg);
         Pile origPile = card.getContainingPile();
         System.out.println(destPile.getPileType());
-
-        Callable auToFlipCallback = new Callable() {
+        
+        Callable moveCardCallback = new Callable() {
             @Override
             public void doCallback() {
+                autoFlip();
+                winCheck();
+            }
+            private void winCheck() {
+                boolean won = isGameWon();
+                if (won) {
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
+                }
+            }
+            private void autoFlip() {
                 if (origPile.isEmpty()) return;
                 Card cardAbove = origPile.getTopCard();
                 if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
@@ -252,9 +260,9 @@ public class Game extends Pane {
         if (draggedCards.isEmpty()) {
             List<Card> slideCard = new ArrayList<>();
             slideCard.add(card);
-            MouseUtil.slideToDest(slideCard, destPile, auToFlipCallback);
+            MouseUtil.slideToDest(slideCard, destPile, moveCardCallback);
         } else {
-            MouseUtil.slideToDest(draggedCards, destPile, auToFlipCallback);
+            MouseUtil.slideToDest(draggedCards, destPile, moveCardCallback);
         }
 
         draggedCards.clear();
