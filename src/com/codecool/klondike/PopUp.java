@@ -29,6 +29,9 @@ class PopUp {
         ButtonType playAgain = new ButtonType("Play Again");
         ButtonType quit = new ButtonType("Quit");
 
+        alert.setResizable(true);
+        dialogPane.setPrefSize(600, 400);
+
         // Remove default ButtonTypes
         alert.getButtonTypes().clear();
 
