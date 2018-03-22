@@ -2,7 +2,7 @@
     -fx-background-color: #000000;
 }
 .congrats > *.button-bar > *.container{
-    -fx-background-color: #4d2817;
+    -fx-background-color: #000; /*#075700;*/
     -fx-default-button: #000;
     -fx-accent: #4d2817;
     -fx-color: #000;
@@ -15,6 +15,6 @@
     -fx-default-button: #000;
     -fx-accent: #4d2817;
     -fx-alignment: center;
-    -fx-text-fill: #f8ff0d;
+    -fx-text-fill: #ffd700;
 }
 

@@ -97,13 +97,18 @@ public class Card extends ImageView {
     }
 
     public static void loadCardImages() {
-        cardBackImage = new Image("card_images/card_back.png");
+        cardBackImage = new Image("original_card_images/card_back.png");
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 String cardName = suit.name + rank.id;
                 String cardId = "S" + suit.id + "R" + rank.id;
-                String imageFileName = "card_images/" + cardName + ".png";
-                cardFaceImages.put(cardId, new Image(imageFileName));
+                String imageFileName = "original_card_images/" + cardName + ".png";
+                Image currentImage = new Image(imageFileName, 150, 215, false, false);
+                /*ImageView currentImageView = new ImageView(currentImage);
+                currentImageView.setSmooth(false);
+                currentImageView.setFitHeight(215);
+                currentImageView.setFitWidth(150);*/
+                cardFaceImages.put(cardId, currentImage);
             }
         }
     }
