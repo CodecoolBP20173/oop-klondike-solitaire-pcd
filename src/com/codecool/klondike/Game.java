@@ -110,13 +110,21 @@ public class Game extends Pane {
         if (pile != null) {
             handleValidMove(card, pile);
         } else {
-            draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards.clear();
-        }
-        //wintest
-        int count = 0;
-        for (Pile pile1:foundationPiles) {
-            count+= pile1.numOfCards();
+            //draggedCards.forEach(MouseUtil::slideBack);
+            for (Card draggedCard : draggedCards) {
+                MouseUtil.slideBack(draggedCard, new Callable() {
+                    @Override
+                    public void doCallback() {
+                        System.out.println("Callbacking");
+                        if (draggedCards.size() == 0) return;
+                        int lastIndex = draggedCards.size()-1;
+                        if (draggedCards.get(lastIndex).equals(draggedCard)) {
+                            System.out.println("Clearing");
+                            draggedCards.clear();
+                        }
+                    }
+                });
+            }
         }
     };
 
@@ -154,12 +162,11 @@ public class Game extends Pane {
     }
 
     public boolean isGameWon() {
-        //v1
         int count = 0;
         for (Pile pile : foundationPiles) {
             count += pile.numOfCards();
         }
-        if (count == 2) {
+        if (count == 52) {
             return true;
         }
         return false;
@@ -248,7 +255,6 @@ public class Game extends Pane {
                     cardAbove.flip();
                 }
             }
-
         };
 
         if (draggedCards.isEmpty()) {

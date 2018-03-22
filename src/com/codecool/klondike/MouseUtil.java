@@ -35,6 +35,20 @@ public class MouseUtil {
                 });
     }
 
+    public static void slideBack(Card card, Callable callback) {
+        double sourceX = card.getLayoutX() + card.getTranslateX();
+        double sourceY = card.getLayoutY() + card.getTranslateY();
+        double targetX = card.getLayoutX();
+        double targetY = card.getLayoutY();
+        animateCardMovement(card, sourceX, sourceY,
+                targetX, targetY, Duration.millis(150), e -> {
+                    card.getDropShadow().setRadius(2);
+                    card.getDropShadow().setOffsetX(0);
+                    card.getDropShadow().setOffsetY(0);
+                    callback.doCallback();
+                });
+    }
+
     public static void slideToDest(List<Card> cardsToSlide, Pile destPile) {
         if (cardsToSlide == null)
             return;
