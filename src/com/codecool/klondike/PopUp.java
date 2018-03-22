@@ -44,43 +44,16 @@ class PopUp {
         playAgainButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent event) {
-                /*try {
+            public void handle(ActionEvent event) { gameInstance.restart(stage); }
 
-                    try {
-                        Thread.sleep(900);
-                        System.out.println("sleep success");
-                    } catch (Exception e) {
-                        System.out.println("sleep failed");
-                    }
-                    Robot robot = new Robot();
-
-                    // Simulate a mouse click
-                    robot.mousePress(InputEvent.BUTTON1_MASK);
-                    robot.mouseRelease(InputEvent.BUTTON1_MASK);
-
-                    // Simulate a key press
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_X);
-                    System.out.println("ctrlx pressed");
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyRelease(KeyEvent.VK_X);
-                    System.out.println("ctrlx released");
-                } catch (AWTException e) {
-                    e.printStackTrace();
-                }*/
-
-                gameInstance.restart(stage);
-            }
         });
 
         Button quitButton = (Button) alert.getDialogPane().lookupButton(quit);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
+            public void handle(ActionEvent event) { System.exit(0); }
+
         });
     }
 }
