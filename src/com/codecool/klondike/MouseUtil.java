@@ -16,7 +16,11 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+
+
 public class MouseUtil {
+
+    //public static Game game;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -28,6 +32,20 @@ public class MouseUtil {
                     card.getDropShadow().setRadius(2);
                     card.getDropShadow().setOffsetX(0);
                     card.getDropShadow().setOffsetY(0);
+                });
+    }
+
+    public static void slideBack(Card card, Callable callback) {
+        double sourceX = card.getLayoutX() + card.getTranslateX();
+        double sourceY = card.getLayoutY() + card.getTranslateY();
+        double targetX = card.getLayoutX();
+        double targetY = card.getLayoutY();
+        animateCardMovement(card, sourceX, sourceY,
+                targetX, targetY, Duration.millis(150), e -> {
+                    card.getDropShadow().setRadius(2);
+                    card.getDropShadow().setOffsetX(0);
+                    card.getDropShadow().setOffsetY(0);
+                    callback.doCallback();
                 });
     }
 
@@ -58,6 +76,45 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
+                        //Wincheck
+                        /*boolean won = game.isGameWon();
+                        if (won) {
+                            PopUp winPopup = new PopUp();
+                            winPopup.showDialog();
+                        }*/
+
+                    });
+        }
+    }
+
+    public static void slideToDest(List<Card> cardsToSlide, Pile destPile, Callable callback) {
+        if (cardsToSlide == null)
+            return;
+        double destCardGap = destPile.getCardGap();
+        double targetX;
+        double targetY;
+
+        if (destPile.isEmpty()) {
+            targetX = destPile.getLayoutX();
+            targetY = destPile.getLayoutY();
+        } else {
+            targetX = destPile.getTopCard().getLayoutX();
+            targetY = destPile.getTopCard().getLayoutY();
+        }
+        System.out.println("Sliding card: " + cardsToSlide.get(0) + "to pile: " + destPile.getName());
+        for (int i = 0; i < cardsToSlide.size(); i++) {
+            Card currentCard = cardsToSlide.get(i);
+            double sourceX = currentCard.getLayoutX() + currentCard.getTranslateX();
+            double sourceY = currentCard.getLayoutY() + currentCard.getTranslateY();
+
+            animateCardMovement(currentCard, sourceX, sourceY, targetX,
+                    targetY + ((destPile.isEmpty() ? i : i + 1) * destCardGap), Duration.millis(150),
+                    e -> {
+                        currentCard.moveToPile(destPile);
+                        currentCard.getDropShadow().setRadius(2);
+                        currentCard.getDropShadow().setOffsetX(0);
+                        currentCard.getDropShadow().setOffsetY(0);
+                        callback.doCallback();
                     });
         }
     }
