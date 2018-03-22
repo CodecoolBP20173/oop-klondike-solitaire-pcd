@@ -1,11 +1,10 @@
 .congrats{
-    /*-fx-background-color: #000000;*/
-    -fx-background-image: url("green.jpg");
+    -fx-background-image: url("fireworks.jpg");
     -fx-background-repeat: false;
     -fx-background-size: 120%;
 }
 .congrats > *.button-bar > *.container{
-    -fx-background-color: #000; /*#075700;*/
+    -fx-background-color: #000;
     -fx-default-button: #000;
     -fx-accent: #4d2817;
     -fx-color: #000;
