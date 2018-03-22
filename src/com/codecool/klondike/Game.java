@@ -128,7 +128,7 @@ public class Game extends Pane {
         }
     };
 
-    private EventHandler<MouseEvent> onMouseRightClickedHandler = e -> {
+    private EventHandler<MouseEvent> onMouseDoubleClickedHandler = e -> {
         Card card = (Card) e.getSource();
 
         // cards that are not on top or are in FOUNDATION cannot be double-clicked
@@ -136,7 +136,7 @@ public class Game extends Pane {
                 card.getContainingPile().getPileType() == Pile.PileType.FOUNDATION) return;
 
         // check if click was right-click
-        if (e.getButton() == MouseButton.SECONDARY) {
+        if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
 
             // iterate through FOUNDATION piles and move card to pile if found valid
             for (Pile destPile : foundationPiles) {
@@ -185,7 +185,7 @@ public class Game extends Pane {
         card.setOnMouseDragged(onMouseDraggedHandler);
         card.setOnMouseReleased(onMouseReleasedHandler);
         card.setOnMouseClicked(onMouseClickedHandler);
-        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseRightClickedHandler);
+        card.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseDoubleClickedHandler);
     }
 
     public void refillStockFromDiscard() {
