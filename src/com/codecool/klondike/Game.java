@@ -1,12 +1,7 @@
 package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
-
-import java.util.concurrent.CompletableFuture;
-
-import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -16,13 +11,10 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseButton;
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Game extends Pane {
 
@@ -134,6 +126,7 @@ public class Game extends Pane {
                 });
             }
         }
+
         if (isAutoCompletePossible()){
             autoComplete();
         }
