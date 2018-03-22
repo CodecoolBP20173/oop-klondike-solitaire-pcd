@@ -3,18 +3,12 @@ package com.codecool.klondike;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyCombination;
 
 
@@ -32,7 +26,7 @@ public class Klondike extends Application {
     public void startGame(Stage primaryStage) {
         Card.loadCardImages();
         Game game = new Game();
-        game.setTableBackground(new Image("/table/green2.jpg"));
+        game.setTableBackground(new Image("/table/stars.jpg"));
 
 
         addMenu(game, primaryStage);
@@ -42,7 +36,7 @@ public class Klondike extends Application {
         primaryStage.show();
         PopUp.gameInstance = this;
         PopUp.stage = primaryStage;
-        //MouseUtil.game = game;
+
 
     }
 
@@ -52,8 +46,6 @@ public class Klondike extends Application {
 
         // Create menus
         Menu fileMenu = new Menu("File");
-        // TODO implement if edit is done, else remove before release
-        // Menu editMenu = new Menu("Edit");
         Menu helpMenu = new Menu("Help");
 
         // Create MenuItems
@@ -83,14 +75,11 @@ public class Klondike extends Application {
             }
         });
 
-        //MenuItem copyItem = new MenuItem("");
-
         // Add menuItems to the Menus
         fileMenu.getItems().addAll(newItem, exitItem);
-        //editMenu.getItems().addAll(copyItem, pasteItem);
 
         // Add Menus to the MenuBar
-        menuBar.getMenus().addAll(fileMenu, /*editMenu,*/ helpMenu);
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
 
         menuBar.prefWidthProperty().bind(stage.widthProperty());
         game.getChildren().add(menuBar);

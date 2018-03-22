@@ -1,15 +1,6 @@
 package com.codecool.klondike;
-import javafx.event.Event;
+
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.net.URL;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -20,6 +11,7 @@ import javafx.stage.Stage;
 class PopUp {
     public static Klondike gameInstance;
     public static Stage stage;
+
 
     public void showDialog() {
         Alert alert = new Alert(AlertType.NONE, "YOU ARE WINNER");
@@ -33,6 +25,9 @@ class PopUp {
         ButtonType playAgain = new ButtonType("Play Again");
         ButtonType quit = new ButtonType("Quit");
 
+        alert.setResizable(true);
+        dialogPane.setPrefSize(600, 400);
+
         // Remove default ButtonTypes
         alert.getButtonTypes().clear();
 
@@ -45,6 +40,7 @@ class PopUp {
 
             @Override
             public void handle(ActionEvent event) { gameInstance.restart(stage); }
+
 
         });
 

@@ -20,7 +20,6 @@ import java.util.List;
 
 public class MouseUtil {
 
-    //public static Game game;
 
     public static void slideBack(Card card) {
         double sourceX = card.getLayoutX() + card.getTranslateX();
@@ -76,13 +75,6 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
-                        //Wincheck
-                        /*boolean won = game.isGameWon();
-                        if (won) {
-                            PopUp winPopup = new PopUp();
-                            winPopup.showDialog();
-                        }*/
-
                     });
         }
     }
