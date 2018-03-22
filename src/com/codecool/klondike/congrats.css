@@ -15,10 +15,4 @@
     -fx-default-button: #000;
     -fx-accent: #4d2817;
 }
-.congrats > *.button-bar.button:hover > *.container{
-    -fx-background-color: #4d2817;
-    -fx-default-button: #000;
-    -fx-accent: #4d2817;
-    -fx-color: #000;
-    -fx-focus-color: #4d2817;
-}
+

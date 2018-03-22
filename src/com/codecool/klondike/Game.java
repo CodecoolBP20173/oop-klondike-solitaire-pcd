@@ -159,7 +159,7 @@ public class Game extends Pane {
         for (Pile pile : foundationPiles) {
             count += pile.numOfCards();
         }
-        if (count == 52) {
+        if (count == 2) {
             return true;
         }
         return false;
@@ -228,23 +228,35 @@ public class Game extends Pane {
         Pile origPile = card.getContainingPile();
         System.out.println(destPile.getPileType());
         
-        Callable auToFlipCallback = new Callable() {
+        Callable moveCardCallback = new Callable() {
             @Override
             public void doCallback() {
+                autoFlip();
+                winCheck();
+            }
+            private void winCheck() {
+                boolean won = isGameWon();
+                if (won) {
+                    PopUp winPopup = new PopUp();
+                    winPopup.showDialog();
+                }
+            }
+            private void autoFlip() {
                 if (origPile.isEmpty()) return;
                 Card cardAbove = origPile.getTopCard();
                 if (origPile.getPileType() == Pile.PileType.TABLEAU && cardAbove.isFaceDown()) {
                     cardAbove.flip();
                 }
             }
+
         };
 
         if (draggedCards.isEmpty()) {
             List<Card> slideCard = new ArrayList<>();
             slideCard.add(card);
-            MouseUtil.slideToDest(slideCard, destPile, auToFlipCallback);
+            MouseUtil.slideToDest(slideCard, destPile, moveCardCallback);
         } else {
-            MouseUtil.slideToDest(draggedCards, destPile, auToFlipCallback);
+            MouseUtil.slideToDest(draggedCards, destPile, moveCardCallback);
         }
 
         draggedCards.clear();
