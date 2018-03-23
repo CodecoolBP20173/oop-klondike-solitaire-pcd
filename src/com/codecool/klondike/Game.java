@@ -176,7 +176,7 @@ public class Game extends Pane {
         for (Pile pile : foundationPiles) {
             count += pile.numOfCards();
         }
-        if (count == 1) {
+        if (count == 52) {
             return true;
         }
         return false;
