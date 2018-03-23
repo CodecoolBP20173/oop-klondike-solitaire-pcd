@@ -341,7 +341,7 @@ public class Game extends Pane {
 
     public void setTableBackground(Image tableBackground) {
         setBackground(new Background(new BackgroundImage(tableBackground,
-                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
