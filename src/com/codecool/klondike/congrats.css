@@ -1,0 +1,21 @@
+.congrats{
+    -fx-background-image: url("fireworks.jpg");
+    -fx-background-size: 120%;
+}
+.congrats > *.button-bar > *.container{
+    -fx-background-color: #000;
+    -fx-default-button: #000;
+    -fx-accent: #4d2817;
+    -fx-color: #000;
+    -fx-focus-color: #4d2817;
+}
+.congrats > *.label.content{
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+    -fx-padding: 25px;
+    -fx-default-button: #000;
+    -fx-accent: #4d2817;
+    -fx-alignment: center;
+    -fx-text-fill: #ffd700;
+}
+
